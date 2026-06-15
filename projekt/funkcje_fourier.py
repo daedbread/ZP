@@ -115,7 +115,7 @@ def filtr(sig, f1, f2=0, typ=''):
   else:
     raise ValueError('Nieznany typ filtra')
   
-def odczyt(nazwa): # !jeszcze nie robi nic z sugestii doktora, tylko odczytuje! dziala gdy plik ma 1 lub 2 kolumny
+def odczyt(nazwa):
   val = []
   time = []
   with open(f'{nazwa}') as o:
