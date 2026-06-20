@@ -16,7 +16,7 @@ def rozdziel(*args):
   return r
 
 def create_sin(A = 1, f = 1, phi = 0, t = np.linspace(0,1)):
-  return A * np.sin(2 * np.pi * f * t + phi)
+  return A * np.sin(2 * np.pi * f * t + phi * np.pi)
 
 def create_sig(*args, t, const=0, noise_lvl=0):
   roz = rozdziel(*args)

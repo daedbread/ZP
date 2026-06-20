@@ -1,8 +1,6 @@
 import sys
-import numpy as np
 import funkcje_fourier as ry
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import (
     QApplication,
     QComboBox,
