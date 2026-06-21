@@ -300,6 +300,9 @@ class MainWindow(QMainWindow):
         except ValueError:
             self.error_message = f'Plik {self.signal_file} zawiera dane w złym formacie'
             self.error_msg()
+        except TypeError:
+            self.error_message = f'Plik {self.signal_file} zawiera dane w złym formacie'
+            self.error_msg()
 
     # otwiera plik o danej nazwie i nadpisuje dane w tablicy
     def the_button_was_clicked32(self):
@@ -314,6 +317,9 @@ class MainWindow(QMainWindow):
             self.error_message = f'Nie znaleziono pliku {self.signal_file}'
             self.error_msg()
         except ValueError:
+            self.error_message = f'Plik {self.signal_file} zawiera dane w złym formacie'
+            self.error_msg()
+        except TypeError:
             self.error_message = f'Plik {self.signal_file} zawiera dane w złym formacie'
             self.error_msg()
 

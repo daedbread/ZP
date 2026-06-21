@@ -90,7 +90,7 @@ def filtr(sig, f1, f2=0, typ=''):
     freqs = np.fft.rfftfreq(len(sig), 1/len(sig))
 
     for i in range(len(values)):
-      if freqs[i] < min(f1,f2) or freqs[i] > max(f1,f2):
+      if freqs[i] <= min(f1,f2) or freqs[i] > max(f1,f2):
         values[i] = 0
 
     new_sig = np.fft.irfft(values, len(sig))
@@ -104,7 +104,7 @@ def filtr(sig, f1, f2=0, typ=''):
     freqs = np.fft.rfftfreq(len(sig), 1/len(sig))
 
     for i in range(len(values)):
-      if freqs[i] > min(f1,f2) and freqs[i] < max(f1,f2):
+      if freqs[i] >= min(f1,f2) and freqs[i] < max(f1,f2):
         values[i] = 0
 
     new_sig = np.fft.irfft(values, len(sig))
@@ -129,7 +129,7 @@ def odczyt(nazwa):
       time.append(float(temp1))
       val.append(float(temp2))
 
-  if kol == 1: return val, 
+  if kol == 1: return val, czas(len(val), 1)
   if kol == 2: return val, time
 
 def zapis(syg, nazwa, rozsz, cza=None):
