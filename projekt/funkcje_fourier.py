@@ -16,11 +16,11 @@ def rozdziel(*args):
   return r
 
 def create_sin(A = 1, f = 1, phi = 0, t = np.linspace(0,1)):
-  return A * np.sin(2 * np.pi * f * t + phi * np.pi)
+  return A * np.sin(2 * np.pi * f * np.array(t) + phi * np.pi)
 
 def create_sig(*args, t, const=0, noise_lvl=0):
-  roz = rozdziel(*args)
   result = const
+  roz = rozdziel(*args)
   for i in range(len(roz)):
     result += create_sin(roz[i][0], roz[i][1], roz[i][2], t)
   noise = noise_lvl * np.random.randn(len(t)) # szum
@@ -111,9 +111,6 @@ def filtr(sig, f1, f2=0, typ=''):
   
   elif typ == 'none':
     return sig
-
-  else:
-    raise ValueError('Nieznany typ filtra')
   
 def odczyt(nazwa):
   val = []
@@ -130,7 +127,7 @@ def odczyt(nazwa):
       time.append(float(temp1))
       val.append(float(temp2))
 
-  if kol == 1: return val
+  if kol == 1: return val, 
   if kol == 2: return val, time
 
 def zapis(syg, nazwa, rozsz, cza=None):

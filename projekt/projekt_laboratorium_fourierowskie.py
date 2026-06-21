@@ -1,4 +1,5 @@
 import sys
+import numpy as np
 import funkcje_fourier as ry
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
@@ -59,8 +60,10 @@ class MainWindow(QMainWindow):
         self.signal_synth = ''
         self.signal_file = ''
         self.t = ry.czas(1024, 1)
+        self.test = ''
         self.const = 0
         self.noise = 0
+        self.test_file = 0
         self.win = 'none'
         self.signal_filtered = []
         self.filter = 'none'
@@ -264,19 +267,20 @@ class MainWindow(QMainWindow):
                 self.signal_saved.append(float(Fraction(temp[i]))) # Fraction interpretuje string 'int/int' jako ułamek np.: '1/2' => '0.5'
             self.wykres()
         except ValueError:
-            self.error_message = f'Dane zostały podane w złym formacie'
+            self.error_message = 'Dane zostały podane w złym formacie'
             self.error_msg()        
 
     # nadpisuje dane w tablicy
     def the_button_was_clicked22(self): 
         self.signal_saved = []
+        self.test_file = 0
         temp = self.signal_synth.split(',')
         try:
             for i in range(len(temp)):
                 self.signal_saved.append(float(Fraction(temp[i]))) # Fraction interpretuje string 'int/int' jako ułamek np.: '1/2' => '0.5'
             self.wykres()
         except ValueError:
-            self.error_message = f'Dane zostały podane w złym formacie'
+            self.error_message = 'Dane zostały podane w złym formacie'
             self.error_msg()
 
     # zbiera aktualny tekst z pole tekstowego do zmiennej
@@ -286,11 +290,9 @@ class MainWindow(QMainWindow):
     # otwiera plik o danej nazwie i dopisuje dane do tablicy
     def the_button_was_clicked31(self):
         try:
-            with open(self.signal_file, "r") as f:
-                for linia in f:
-                    temp = linia.split(',')
-                for i in range(len(temp)):
-                    self.signal_saved.append(float(Fraction(temp[i])))
+            a, b = ry.odczyt(self.signal_file)
+            self.test_file += np.array(a)
+            self.t = b
             self.wykres()         
         except FileNotFoundError:
             self.error_message = f'Nie znaleziono pliku {self.signal_file}'
@@ -302,13 +304,12 @@ class MainWindow(QMainWindow):
     # otwiera plik o danej nazwie i nadpisuje dane w tablicy
     def the_button_was_clicked32(self):
         self.signal_saved = []
+        self.test_file = 0
         try:
-            with open(self.signal_file, "r") as f:
-                for linia in f:
-                    temp = linia.split(',')
-                for i in range(len(temp)):
-                    self.signal_saved.append(float(Fraction(temp[i])))
-            self.wykres()
+            a, b = ry.odczyt(self.signal_file)
+            self.test_file += np.array(a)
+            self.t = b
+            self.wykres()   
         except FileNotFoundError:
             self.error_message = f'Nie znaleziono pliku {self.signal_file}'
             self.error_msg()
@@ -322,6 +323,8 @@ class MainWindow(QMainWindow):
             self.test = ry.create_sig(*[0,0,0], t=self.t, const=self.const, noise_lvl=self.noise)
         else:
             self.test = ry.create_sig(*self.signal_saved, t=self.t, const=self.const, noise_lvl=self.noise)
+
+        self.test += self.test_file
 
         # wykres A(t)
         self.signal_filtered = ry.filtr(self.test, self.f1, self.f2, self.filter)
