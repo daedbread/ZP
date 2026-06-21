@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 
-def czas(fs = 1000, tk = 1):
-  return np.linspace(0, tk, fs, endpoint=False)
+def czas(fs = 1024, tk = 1):
+  return np.linspace(0, tk, int(fs*tk), endpoint=False)
 
 def rozdziel(*args):
   r = []
@@ -26,10 +26,12 @@ def create_sig(*args, t, const=0, noise_lvl=0):
   noise = noise_lvl * np.random.randn(len(t)) # szum
   return result + noise
 
-def fourier(sig):
-  wartosci = np.fft.rfft(sig) # transformata Fouriera
-  dodatnie = np.fft.rfftfreq(len(sig), 1/len(sig)) #tylko dodatnie częstotliwości
-  amplituda = np.abs(wartosci) * 2 / len(sig)
+def fourier(sig, tk): # potrzeba czasu końcowego by nie zmieniało częstotliwości
+  if tk < 1: tk1 = 1
+  else: tk1 = tk
+  wartosci = np.fft.rfft(sig[0:int(len(sig)//tk)]) # transformata Fouriera
+  dodatnie = np.fft.rfftfreq(int(len(sig)//tk1), tk/len(sig)) #tylko dodatnie częstotliwości
+  amplituda = np.abs(wartosci) * 2 * tk / len(sig)
   faza = np.angle(wartosci)
   return amplituda, dodatnie, faza
 

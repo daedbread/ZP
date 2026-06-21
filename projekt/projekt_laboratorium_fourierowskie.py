@@ -331,8 +331,8 @@ class MainWindow(QMainWindow):
         self.plot41.plot(self.t, self.test, self.t, self.signal_filtered, 'Czas [s]', 'Amplituda', 'Charakterystyka czasowa')
 
         # wykres A(f)
-        self.amp, self.dod, self.faz = ry.fourier(self.test*ry.okno(self.test, self.win))
-        self.amp2, self.dod2, self.faz2 = ry.fourier(self.signal_filtered*ry.okno(self.signal_filtered, self.win))
+        self.amp, self.dod, self.faz = ry.fourier(self.test*ry.okno(self.test, self.win), self.t[-1])
+        self.amp2, self.dod2, self.faz2 = ry.fourier(self.signal_filtered*ry.okno(self.signal_filtered, self.win), self.t[-1])
         self.plot42.stem(self.dod, self.amp, self.dod2, self.amp2, 'Częstotliwość [Hz]', 'Amplituda', 'Charakterystyka częstotliwościowa')
 
         self.error_message = ''
